@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Capture Studio",
+  "version": "0.1.0",
+  "description": "タブの画面録画とスクリーンショットを行う拡張機能",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Tab Capture Studio"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_page": "options.html",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "scripting",
+    "tabCapture",
+    "downloads",
+    "offscreen",
+    "storage"
+  ]
+}

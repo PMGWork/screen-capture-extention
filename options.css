@@ -1,0 +1,120 @@
+:root {
+  color-scheme: light;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Helvetica Neue", Helvetica, Arial, "Hiragino Sans", sans-serif;
+  --bg: #f7f7f8;
+  --card: #ffffff;
+  --border: #e6e6e6;
+  --text: #111111;
+  --muted: #6b7280;
+  --accent: #1f2937;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+}
+
+.page {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 24px 18px 32px;
+}
+
+.page__header {
+  margin-bottom: 18px;
+}
+
+.page__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0 0 6px;
+}
+
+.page__title {
+  font-size: 22px;
+  margin: 0 0 6px;
+}
+
+.page__subtitle {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+  display: grid;
+  gap: 12px;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 14px;
+}
+
+.card__section {
+  display: grid;
+  gap: 8px;
+}
+
+.card__label {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.toggle input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.field__label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+select {
+  font: inherit;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+
+.field__suffix {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.page__status {
+  font-size: 12px;
+  color: var(--muted);
+  min-height: 16px;
+}

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tab Capture Studio 設定</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="page__header">
+        <h1 class="page__title">設定</h1>
+        <p class="page__subtitle">画面録画・スクリーンショットの設定を変更できます。</p>
+      </header>
+
+      <section class="card">
+        <h2 class="card__title">画面録画</h2>
+        <div class="card__section">
+          <p class="card__label">音声</p>
+          <label class="toggle">
+            <input type="checkbox" id="tab-audio" />
+            <span class="toggle__label">タブ内音声を録音</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="mic-audio" />
+            <span class="toggle__label">マイク音声を録音</span>
+          </label>
+        </div>
+        <div class="card__section">
+          <p class="card__label">フレームレート</p>
+          <label class="field">
+            <select id="frame-rate">
+              <option value="15">15 fps</option>
+              <option value="30">30 fps</option>
+              <option value="60">60 fps</option>
+            </select>
+          </label>
+        </div>
+        <div class="card__section">
+          <p class="card__label">ビットレート</p>
+          <label class="field">
+            <select id="video-bitrate">
+              <option value="2500">低 (2.5 Mbps)</option>
+              <option value="5000">中 (5 Mbps)</option>
+              <option value="8000">高 (8 Mbps)</option>
+              <option value="12000">最高 (12 Mbps)</option>
+            </select>
+          </label>
+        </div>
+        <div class="card__section">
+          <p class="card__label">解像度スケール</p>
+          <label class="field">
+            <select id="resolution-scale">
+              <option value="1">100%</option>
+              <option value="0.75">75%</option>
+              <option value="0.5">50%</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="card__title">スクリーンショット</h2>
+        <label class="field">
+          <span class="field__label">フォーマット</span>
+          <select id="capture-format">
+            <option value="png">PNG</option>
+            <option value="jpeg">JPEG</option>
+            <option value="webp">WebP</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field__label">品質</span>
+          <select id="capture-quality">
+            <option value="70">低 (70%)</option>
+            <option value="80">中 (80%)</option>
+            <option value="90">高 (90%)</option>
+            <option value="100">最高 (100%)</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="field__label">解像度スケール</span>
+          <select id="capture-scale">
+            <option value="1">100%</option>
+            <option value="0.75">75%</option>
+            <option value="0.5">50%</option>
+          </select>
+        </label>
+      </section>
+
+      <p class="page__status" id="status" aria-live="polite"></p>
+    </main>
+
+    <script src="options.js"></script>
+  </body>
+</html>
