@@ -9,8 +9,13 @@
   <body>
     <main class="panel">
       <header class="panel__header">
-        <h1 class="panel__title">タブキャプチャ</h1>
-        <p class="panel__subtitle">アクティブなタブをキャプチャします。</p>
+        <div class="panel__title-row">
+          <h1 class="panel__title">タブキャプチャ</h1>
+          <button class="btn btn--ghost btn--icon" id="open-settings" aria-label="設定">
+            <img src="icons/settings.svg" alt="" />
+          </button>
+        </div>
+        <p class="panel__subtitle">アクティブタブをキャプチャします</p>
       </header>
 
       <section class="panel__status" aria-live="polite">
@@ -22,8 +27,44 @@
         <button class="btn btn--ghost" id="capture">スクリーンショット</button>
       </section>
 
-      <section class="panel__settings">
-        <button class="btn btn--ghost" id="open-settings">設定</button>
+      <section class="panel__resize">
+        <label class="field">
+          <span class="field__label">プリセット</span>
+          <select id="window-size">
+            <option value="none">選択してください</option>
+            <optgroup label="16:9">
+              <option value="960x540">960×540</option>
+              <option value="1280x720">1280×720</option>
+              <option value="1366x768">1366×768</option>
+              <option value="1600x900">1600×900</option>
+            </optgroup>
+            <optgroup label="16:10">
+              <option value="1024x600">1024×600</option>
+              <option value="1280x800">1280×800</option>
+              <option value="1440x900">1440×900</option>
+              <option value="1600x1000">1600×1000</option>
+            </optgroup>
+            <optgroup label="4:3">
+              <option value="800x600">800×600</option>
+              <option value="1024x768">1024×768</option>
+              <option value="1280x960">1280×960</option>
+            </optgroup>
+          </select>
+        </label>
+        <div class="panel__resize-manual">
+          <label class="field">
+            <span class="field__label">幅</span>
+            <input type="number" id="window-width" min="320" step="10" placeholder="例: 1280" />
+          </label>
+          <label class="field">
+            <span class="field__label">高さ</span>
+            <input type="number" id="window-height" min="240" step="10" placeholder="例: 720" />
+          </label>
+        </div>
+        <div class="panel__resize-actions">
+          <button class="btn btn--ghost" id="apply-window-size">サイズ変更</button>
+          <button class="btn btn--ghost" id="reset-window-size">元に戻す</button>
+        </div>
       </section>
     </main>
 

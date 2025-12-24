@@ -2,9 +2,21 @@ const recordToggleButton = document.getElementById("record-toggle");
 const captureButton = document.getElementById("capture");
 const statusText = document.getElementById("status");
 const openSettingsButton = document.getElementById("open-settings");
+const windowSizeSelect = document.getElementById("window-size");
+const applyWindowSizeButton = document.getElementById("apply-window-size");
+const resetWindowSizeButton = document.getElementById("reset-window-size");
+const windowWidthInput = document.getElementById("window-width");
+const windowHeightInput = document.getElementById("window-height");
 
 let isRecording = false;
 let canRecord = true;
+const recordingClasses = [
+  "bg-red-600",
+  "border-red-600",
+  "text-white",
+  "hover:bg-red-700",
+  "hover:border-red-700"
+];
 
 const setStatus = (text) => {
   statusText.textContent = text;
@@ -114,6 +126,58 @@ openSettingsButton.addEventListener("click", () => {
   chrome.runtime.openOptionsPage();
 });
 
+applyWindowSizeButton.addEventListener("click", async () => {
+  const width = Number(windowWidthInput.value);
+  const height = Number(windowHeightInput.value);
+  const hasManual =
+    Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0;
+  const payload = hasManual ? { width, height } : { size: windowSizeSelect.value };
+  if (!hasManual && windowSizeSelect.value === "none") {
+    setStatus("プリセットか幅高さを入力してください");
+    return;
+  }
+  const response = await sendMessage("resize-window", payload);
+  if (response?.ok) {
+    setStatus("サイズを変更しました");
+  } else {
+    setStatus(response?.error ?? "サイズ変更に失敗しました。");
+  }
+});
+
+resetWindowSizeButton.addEventListener("click", async () => {
+  try {
+    const response = await sendMessage("reset-window-size");
+    if (response?.ok) {
+      setStatus("元に戻しました");
+    } else {
+      setStatus(response?.error ?? "元のサイズが保存されていません。");
+    }
+  } catch (error) {
+    setStatus("元に戻せませんでした。");
+  }
+});
+
+windowSizeSelect.addEventListener("change", () => {
+  const value = windowSizeSelect.value;
+  if (value === "none") {
+    return;
+  }
+  const [width, height] = value.split("x").map((item) => Number(item));
+  if (Number.isFinite(width) && Number.isFinite(height)) {
+    windowWidthInput.value = String(width);
+    windowHeightInput.value = String(height);
+  }
+});
+
+const loadWindowDefaults = () => {
+  if (!windowWidthInput.value) {
+    windowWidthInput.value = "1280";
+  }
+  if (!windowHeightInput.value) {
+    windowHeightInput.value = "720";
+  }
+};
+
 chrome.runtime.onMessage.addListener((message) => {
   if (message?.type === "recording-saved") {
     if (!isRecording) {
@@ -129,15 +193,18 @@ chrome.runtime.onMessage.addListener((message) => {
         }
       }, 1500);
     }
+    loadWindowDefaults();
   }
 });
 
 const setRecordingState = (recording) => {
   isRecording = recording;
   recordToggleButton.textContent = recording ? "録画停止" : "画面録画";
-  recordToggleButton.classList.toggle("btn--recording", recording);
+  recordingClasses.forEach((className) => {
+    recordToggleButton.classList.toggle(className, recording);
+  });
   if (recording) {
-  setStatus("録画中");
+    setStatus("録画中");
   }
 };
 
@@ -145,6 +212,7 @@ const initializeState = async () => {
   const storage = requireStorage();
   const stored = await storage.get({ isRecording: false });
   setRecordingState(stored.isRecording);
+  loadWindowDefaults();
   await refreshAvailability();
 };
 

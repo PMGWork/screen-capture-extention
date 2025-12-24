@@ -128,6 +128,79 @@ const getStoredOptions = async () => {
   });
 };
 
+const parseViewportSize = (value) => {
+  if (!value || value === "none") return null;
+  const [width, height] = value.split("x").map((item) => Number(item));
+  if (!Number.isFinite(width) || !Number.isFinite(height)) {
+    return null;
+  }
+  return { width, height };
+};
+
+const saveWindowBounds = async (windowId) => {
+  if (!chrome.storage?.local) {
+    throw new Error("保存領域が利用できません。");
+  }
+  const { originalWindowBounds } = await chrome.storage.local.get({
+    originalWindowBounds: null
+  });
+  if (originalWindowBounds?.windowId) {
+    return;
+  }
+  const current = await chrome.windows.get(windowId);
+  await chrome.storage.local.set({
+    originalWindowBounds: {
+      windowId,
+      width: current.width,
+      height: current.height,
+      left: current.left,
+      top: current.top
+    }
+  });
+};
+
+const resizeWindowToViewport = async (tabId, windowId, viewport) => {
+  if (!viewport) return;
+  await saveWindowBounds(windowId);
+  const [result] = await chrome.scripting.executeScript({
+    target: { tabId },
+    func: () => ({
+      innerWidth: window.innerWidth,
+      innerHeight: window.innerHeight,
+      outerWidth: window.outerWidth,
+      outerHeight: window.outerHeight
+    })
+  });
+  if (!result?.result) {
+    throw new Error("サイズ情報の取得に失敗しました。");
+  }
+  const deltaWidth = Math.max(0, result.result.outerWidth - result.result.innerWidth);
+  const deltaHeight = Math.max(0, result.result.outerHeight - result.result.innerHeight);
+  await chrome.windows.update(windowId, {
+    width: Math.round(viewport.width + deltaWidth),
+    height: Math.round(viewport.height + deltaHeight)
+  });
+};
+
+const restoreWindowBounds = async () => {
+  if (!chrome.storage?.local) {
+    throw new Error("保存領域が利用できません。");
+  }
+  const { originalWindowBounds } = await chrome.storage.local.get({
+    originalWindowBounds: null
+  });
+  if (!originalWindowBounds?.windowId) {
+    throw new Error("元のサイズが保存されていません。");
+  }
+  await chrome.windows.update(originalWindowBounds.windowId, {
+    width: originalWindowBounds.width,
+    height: originalWindowBounds.height,
+    left: originalWindowBounds.left,
+    top: originalWindowBounds.top
+  });
+  await chrome.storage.local.remove("originalWindowBounds");
+};
+
 const isBlockedUrl = (url) => {
   if (!url) return true;
   return (
@@ -309,6 +382,36 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   if (message?.type === "capture-tab") {
     captureTab()
+      .then(() => sendResponse({ ok: true }))
+      .catch((error) => sendResponse({ ok: false, error: error.message }));
+    return true;
+  }
+
+  if (message?.type === "resize-window") {
+    chrome.tabs
+      .query({ active: true, currentWindow: true })
+      .then(([tab]) => {
+        if (!tab?.id || !tab?.windowId) {
+          throw new Error("アクティブなタブが見つかりません。");
+        }
+        if (isBlockedUrl(tab.url)) {
+          throw new Error("このページではサイズ変更できません。");
+        }
+        const viewport = message.width && message.height
+          ? { width: Number(message.width), height: Number(message.height) }
+          : parseViewportSize(message.size);
+        if (!viewport) {
+          throw new Error("サイズを選択してください。");
+        }
+        return resizeWindowToViewport(tab.id, tab.windowId, viewport);
+      })
+      .then(() => sendResponse({ ok: true }))
+      .catch((error) => sendResponse({ ok: false, error: error.message }));
+    return true;
+  }
+
+  if (message?.type === "reset-window-size") {
+    restoreWindowBounds()
       .then(() => sendResponse({ ok: true }))
       .catch((error) => sendResponse({ ok: false, error: error.message }));
     return true;
