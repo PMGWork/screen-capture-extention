@@ -6,6 +6,7 @@ const resolutionScaleSelect = document.getElementById("resolution-scale");
 const captureFormatSelect = document.getElementById("capture-format");
 const captureQualitySelect = document.getElementById("capture-quality");
 const captureScaleSelect = document.getElementById("capture-scale");
+const defaultWindowSizeSelect = document.getElementById("default-window-size");
 const statusText = document.getElementById("status");
 
 const setStatus = (text) => {
@@ -29,7 +30,10 @@ const loadOptions = async () => {
     resolutionScale: 1,
     captureFormat: "png",
     captureQuality: 90,
-    captureScale: 1
+    captureFormat: "png",
+    captureQuality: 90,
+    captureScale: 1,
+    defaultWindowSize: "1280x720"
   });
   tabAudioToggle.checked = options.tabAudio;
   micAudioToggle.checked = options.micAudio;
@@ -39,6 +43,7 @@ const loadOptions = async () => {
   captureFormatSelect.value = options.captureFormat;
   captureQualitySelect.value = String(options.captureQuality);
   captureScaleSelect.value = String(options.captureScale);
+  defaultWindowSizeSelect.value = options.defaultWindowSize;
   updateQualityAvailability();
 };
 
@@ -52,7 +57,9 @@ const saveOptions = async () => {
     resolutionScale: Number(resolutionScaleSelect.value),
     captureFormat: captureFormatSelect.value,
     captureQuality: Number(captureQualitySelect.value),
-    captureScale: Number(captureScaleSelect.value)
+    captureQuality: Number(captureQualitySelect.value),
+    captureScale: Number(captureScaleSelect.value),
+    defaultWindowSize: defaultWindowSizeSelect.value
   });
   chrome.runtime.sendMessage({ type: "options-updated" }).catch(() => undefined);
   setStatus("保存しました");
@@ -72,7 +79,10 @@ const updateQualityAvailability = () => {
   resolutionScaleSelect,
   captureFormatSelect,
   captureQualitySelect,
-  captureScaleSelect
+  captureFormatSelect,
+  captureQualitySelect,
+  captureScaleSelect,
+  defaultWindowSizeSelect
 ].forEach((element) => {
   element.addEventListener("change", () => {
     saveOptions().catch((error) => {

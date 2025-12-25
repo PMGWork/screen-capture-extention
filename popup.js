@@ -1,12 +1,13 @@
 const recordToggleButton = document.getElementById("record-toggle");
+const recordLabel = document.getElementById("record-label");
+const statusIndicator = document.getElementById("status-indicator");
 const captureButton = document.getElementById("capture");
 const statusText = document.getElementById("status");
 const openSettingsButton = document.getElementById("open-settings");
 const windowSizeSelect = document.getElementById("window-size");
 const applyWindowSizeButton = document.getElementById("apply-window-size");
 const resetWindowSizeButton = document.getElementById("reset-window-size");
-const windowWidthInput = document.getElementById("window-width");
-const windowHeightInput = document.getElementById("window-height");
+
 
 let isRecording = false;
 let canRecord = true;
@@ -25,6 +26,9 @@ const setStatus = (text) => {
 const setButtonsDisabled = (disabled) => {
   recordToggleButton.disabled = disabled || (!canRecord && !isRecording);
   captureButton.disabled = disabled || !canRecord;
+  applyWindowSizeButton.disabled = disabled || !canRecord;
+  resetWindowSizeButton.disabled = disabled || !canRecord;
+  windowSizeSelect.disabled = disabled || !canRecord;
 };
 
 const sendMessage = async (type, payload = {}) => {
@@ -55,16 +59,24 @@ const refreshAvailability = async () => {
       canRecord = false;
       recordToggleButton.disabled = !isRecording;
       captureButton.disabled = true;
+      applyWindowSizeButton.disabled = true;
+      resetWindowSizeButton.disabled = true;
+      windowSizeSelect.disabled = true;
       if (!isRecording) {
-        setStatus("このページでは録画できません");
+        setStatus("このページでは使用できません");
+        if (statusIndicator) statusIndicator.style.display = "none";
       }
       return;
     }
     canRecord = true;
     recordToggleButton.disabled = false;
     captureButton.disabled = false;
+    applyWindowSizeButton.disabled = false;
+    resetWindowSizeButton.disabled = false;
+    windowSizeSelect.disabled = false;
     if (!isRecording) {
       setStatus("待機中");
+      if (statusIndicator) statusIndicator.style.display = "";
     }
   } catch (error) {
     canRecord = false;
@@ -127,16 +139,11 @@ openSettingsButton.addEventListener("click", () => {
 });
 
 applyWindowSizeButton.addEventListener("click", async () => {
-  const width = Number(windowWidthInput.value);
-  const height = Number(windowHeightInput.value);
-  const hasManual =
-    Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0;
-  const payload = hasManual ? { width, height } : { size: windowSizeSelect.value };
-  if (!hasManual && windowSizeSelect.value === "none") {
-    setStatus("プリセットか幅高さを入力してください");
+  if (windowSizeSelect.value === "none") {
+    setStatus("プリセットを選択してください");
     return;
   }
-  const response = await sendMessage("resize-window", payload);
+  const response = await sendMessage("resize-window", { size: windowSizeSelect.value });
   if (response?.ok) {
     setStatus("サイズを変更しました");
   } else {
@@ -157,26 +164,9 @@ resetWindowSizeButton.addEventListener("click", async () => {
   }
 });
 
-windowSizeSelect.addEventListener("change", () => {
-  const value = windowSizeSelect.value;
-  if (value === "none") {
-    return;
-  }
-  const [width, height] = value.split("x").map((item) => Number(item));
-  if (Number.isFinite(width) && Number.isFinite(height)) {
-    windowWidthInput.value = String(width);
-    windowHeightInput.value = String(height);
-  }
-});
 
-const loadWindowDefaults = () => {
-  if (!windowWidthInput.value) {
-    windowWidthInput.value = "1280";
-  }
-  if (!windowHeightInput.value) {
-    windowHeightInput.value = "720";
-  }
-};
+
+
 
 chrome.runtime.onMessage.addListener((message) => {
   if (message?.type === "recording-saved") {
@@ -193,13 +183,15 @@ chrome.runtime.onMessage.addListener((message) => {
         }
       }, 1500);
     }
-    loadWindowDefaults();
+
   }
 });
 
 const setRecordingState = (recording) => {
   isRecording = recording;
-  recordToggleButton.textContent = recording ? "録画停止" : "画面録画";
+  if (recordLabel) {
+    recordLabel.textContent = recording ? "録画停止" : "画面録画";
+  }
   recordingClasses.forEach((className) => {
     recordToggleButton.classList.toggle(className, recording);
   });
@@ -210,9 +202,13 @@ const setRecordingState = (recording) => {
 
 const initializeState = async () => {
   const storage = requireStorage();
-  const stored = await storage.get({ isRecording: false });
+  const stored = await storage.get({ isRecording: false, defaultWindowSize: "1280x720" });
   setRecordingState(stored.isRecording);
-  loadWindowDefaults();
+
+  if (stored.defaultWindowSize) {
+    windowSizeSelect.value = stored.defaultWindowSize;
+  }
+
   await refreshAvailability();
 };
 

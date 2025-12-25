@@ -13,26 +13,23 @@
         <p class="text-sm text-muted m-0">画面録画・スクリーンショットの設定を変更できます。</p>
       </header>
 
-      <section class="bg-card border border-panel-border rounded-2xl p-4 mb-3.5 grid gap-3">
+      <section class="card-option">
         <h2 class="m-0 text-sm font-bold">画面録画</h2>
         <div class="grid gap-2">
-          <p class="m-0 text-xs text-muted">音声</p>
+          <p class="m-0 label-text">音声</p>
           <label class="flex items-center gap-2.5 text-sm">
-            <input type="checkbox" id="tab-audio" class="w-4 h-4 accent-accent" />
+            <input type="checkbox" id="tab-audio" class="checkbox" />
             <span>タブ内音声を録音</span>
           </label>
           <label class="flex items-center gap-2.5 text-sm">
-            <input type="checkbox" id="mic-audio" class="w-4 h-4 accent-accent" />
+            <input type="checkbox" id="mic-audio" class="checkbox" />
             <span>マイク音声を録音</span>
           </label>
         </div>
         <div class="grid gap-2">
-          <p class="m-0 text-xs text-muted">フレームレート</p>
+          <p class="m-0 label-text">フレームレート</p>
           <label class="grid gap-1.5 text-sm">
-            <select
-              id="frame-rate"
-              class="font-[inherit] py-2 px-2.5 rounded-lg border border-panel-border bg-white"
-            >
+            <select id="frame-rate" class="select-option">
               <option value="15">15 fps</option>
               <option value="30">30 fps</option>
               <option value="60">60 fps</option>
@@ -40,12 +37,9 @@
           </label>
         </div>
         <div class="grid gap-2">
-          <p class="m-0 text-xs text-muted">ビットレート</p>
+          <p class="m-0 label-text">ビットレート</p>
           <label class="grid gap-1.5 text-sm">
-            <select
-              id="video-bitrate"
-              class="font-[inherit] py-2 px-2.5 rounded-lg border border-panel-border bg-white"
-            >
+            <select id="video-bitrate" class="select-option">
               <option value="2500">低 (2.5 Mbps)</option>
               <option value="5000">中 (5 Mbps)</option>
               <option value="8000">高 (8 Mbps)</option>
@@ -54,12 +48,9 @@
           </label>
         </div>
         <div class="grid gap-2">
-          <p class="m-0 text-xs text-muted">解像度スケール</p>
+          <p class="m-0 label-text">解像度スケール</p>
           <label class="grid gap-1.5 text-sm">
-            <select
-              id="resolution-scale"
-              class="font-[inherit] py-2 px-2.5 rounded-lg border border-panel-border bg-white"
-            >
+            <select id="resolution-scale" class="select-option">
               <option value="1">100%</option>
               <option value="0.75">75%</option>
               <option value="0.5">50%</option>
@@ -68,25 +59,45 @@
         </div>
       </section>
 
-      <section class="bg-card border border-panel-border rounded-2xl p-4 mb-3.5 grid gap-3">
+      <section class="card-option mt-4">
+        <h2 class="m-0 text-sm font-bold">ウィンドウサイズ</h2>
+        <label class="grid gap-1.5 text-sm">
+          <span class="label-text">デフォルトサイズ</span>
+          <select id="default-window-size" class="select-option">
+            <optgroup label="16:9">
+              <option value="960x540">960 × 540</option>
+              <option value="1280x720">1280 × 720</option>
+              <option value="1366x768">1366 × 768</option>
+              <option value="1600x900">1600 × 900</option>
+            </optgroup>
+            <optgroup label="16:10">
+              <option value="1024x600">1024 × 600</option>
+              <option value="1280x800">1280 × 800</option>
+              <option value="1440x900">1440 × 900</option>
+              <option value="1600x1000">1600 × 1000</option>
+            </optgroup>
+            <optgroup label="4:3">
+              <option value="800x600">800 × 600</option>
+              <option value="1024x768">1024 × 768</option>
+              <option value="1280x960">1280 × 960</option>
+            </optgroup>
+          </select>
+        </label>
+      </section>
+
+      <section class="card-option">
         <h2 class="m-0 text-sm font-bold">スクリーンショット</h2>
         <label class="grid gap-1.5 text-sm">
-          <span class="text-xs text-muted">フォーマット</span>
-          <select
-            id="capture-format"
-            class="font-[inherit] py-2 px-2.5 rounded-lg border border-panel-border bg-white"
-          >
+          <span class="label-text">フォーマット</span>
+          <select id="capture-format" class="select-option">
             <option value="png">PNG</option>
             <option value="jpeg">JPEG</option>
             <option value="webp">WebP</option>
           </select>
         </label>
         <label class="grid gap-1.5 text-sm">
-          <span class="text-xs text-muted">品質</span>
-          <select
-            id="capture-quality"
-            class="font-[inherit] py-2 px-2.5 rounded-lg border border-panel-border bg-white"
-          >
+          <span class="label-text">品質</span>
+          <select id="capture-quality" class="select-option">
             <option value="70">低 (70%)</option>
             <option value="80">中 (80%)</option>
             <option value="90">高 (90%)</option>
@@ -94,11 +105,8 @@
           </select>
         </label>
         <label class="grid gap-1.5 text-sm">
-          <span class="text-xs text-muted">解像度スケール</span>
-          <select
-            id="capture-scale"
-            class="font-[inherit] py-2 px-2.5 rounded-lg border border-panel-border bg-white"
-          >
+          <span class="label-text">解像度スケール</span>
+          <select id="capture-scale" class="select-option">
             <option value="1">100%</option>
             <option value="0.75">75%</option>
             <option value="0.5">50%</option>

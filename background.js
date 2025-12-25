@@ -113,7 +113,9 @@ const getStoredOptions = async () => {
       resolutionScale: 1,
       captureScale: 1,
       captureFormat: "png",
-      captureQuality: 90
+      captureFormat: "png",
+      captureQuality: 90,
+      defaultWindowSize: "1280x720"
     };
   }
   return chrome.storage.local.get({
@@ -124,7 +126,9 @@ const getStoredOptions = async () => {
     resolutionScale: 1,
     captureScale: 1,
     captureFormat: "png",
-    captureQuality: 90
+    captureFormat: "png",
+    captureQuality: 90,
+    defaultWindowSize: "1280x720"
   });
 };
 
@@ -460,3 +464,26 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 syncBadgeFromStorage().catch(() => undefined);
+
+// キーボードショートカット
+chrome.commands.onCommand.addListener(async (command) => {
+  if (command === "toggle-recording") {
+    const { isRecording = false } = await chrome.storage.local.get({ isRecording: false });
+    if (isRecording) {
+      stopRecording()
+        .then(() => setRecordingState(false))
+        .then(() => setRecordingBadge(false))
+        .catch((error) => console.error("録画停止失敗:", error.message));
+    } else {
+      startRecording(3)
+        .then(() => setRecordingState(true))
+        .then(() => setRecordingBadge(true))
+        .catch((error) => console.error("録画開始失敗:", error.message));
+    }
+  }
+
+
+  if (command === "capture-screenshot") {
+    captureTab().catch((error) => console.error("スクリーンショット失敗:", error.message));
+  }
+});
