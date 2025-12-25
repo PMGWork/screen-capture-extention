@@ -7,31 +7,31 @@
     <link rel="stylesheet" href="dist/output.css" />
   </head>
   <body class="m-0 font-sans bg-bg text-text">
-    <main class="max-w-[520px] mx-auto py-6 px-[18px] pb-8">
-      <header class="mb-[18px]">
-        <h1 class="text-[22px] m-0 mb-1.5">設定</h1>
-        <p class="text-[13px] text-muted m-0">画面録画・スクリーンショットの設定を変更できます。</p>
+    <main class="max-w-lg mx-auto py-6 px-4 pb-8">
+      <header class="mb-4">
+        <h1 class="text-2xl m-0 mb-1.5 font-bold">設定</h1>
+        <p class="text-sm text-muted m-0">画面録画・スクリーンショットの設定を変更できます。</p>
       </header>
 
-      <section class="bg-card border border-panel-border rounded-[14px] p-4 mb-3.5 grid gap-3">
+      <section class="bg-card border border-panel-border rounded-2xl p-4 mb-3.5 grid gap-3">
         <h2 class="m-0 text-sm font-bold">画面録画</h2>
         <div class="grid gap-2">
           <p class="m-0 text-xs text-muted">音声</p>
-          <label class="flex items-center gap-2.5 text-[13px]">
+          <label class="flex items-center gap-2.5 text-sm">
             <input type="checkbox" id="tab-audio" class="w-4 h-4 accent-accent" />
             <span>タブ内音声を録音</span>
           </label>
-          <label class="flex items-center gap-2.5 text-[13px]">
+          <label class="flex items-center gap-2.5 text-sm">
             <input type="checkbox" id="mic-audio" class="w-4 h-4 accent-accent" />
             <span>マイク音声を録音</span>
           </label>
         </div>
         <div class="grid gap-2">
           <p class="m-0 text-xs text-muted">フレームレート</p>
-          <label class="grid gap-1.5 text-[13px]">
+          <label class="grid gap-1.5 text-sm">
             <select
               id="frame-rate"
-              class="font-[inherit] py-2 px-2.5 rounded-[10px] border border-panel-border bg-white"
+              class="font-[inherit] py-2 px-2.5 rounded-lg border border-panel-border bg-white"
             >
               <option value="15">15 fps</option>
               <option value="30">30 fps</option>
@@ -41,10 +41,10 @@
         </div>
         <div class="grid gap-2">
           <p class="m-0 text-xs text-muted">ビットレート</p>
-          <label class="grid gap-1.5 text-[13px]">
+          <label class="grid gap-1.5 text-sm">
             <select
               id="video-bitrate"
-              class="font-[inherit] py-2 px-2.5 rounded-[10px] border border-panel-border bg-white"
+              class="font-[inherit] py-2 px-2.5 rounded-lg border border-panel-border bg-white"
             >
               <option value="2500">低 (2.5 Mbps)</option>
               <option value="5000">中 (5 Mbps)</option>
@@ -55,10 +55,10 @@
         </div>
         <div class="grid gap-2">
           <p class="m-0 text-xs text-muted">解像度スケール</p>
-          <label class="grid gap-1.5 text-[13px]">
+          <label class="grid gap-1.5 text-sm">
             <select
               id="resolution-scale"
-              class="font-[inherit] py-2 px-2.5 rounded-[10px] border border-panel-border bg-white"
+              class="font-[inherit] py-2 px-2.5 rounded-lg border border-panel-border bg-white"
             >
               <option value="1">100%</option>
               <option value="0.75">75%</option>
@@ -68,24 +68,24 @@
         </div>
       </section>
 
-      <section class="bg-card border border-panel-border rounded-[14px] p-4 mb-3.5 grid gap-3">
+      <section class="bg-card border border-panel-border rounded-2xl p-4 mb-3.5 grid gap-3">
         <h2 class="m-0 text-sm font-bold">スクリーンショット</h2>
-        <label class="grid gap-1.5 text-[13px]">
+        <label class="grid gap-1.5 text-sm">
           <span class="text-xs text-muted">フォーマット</span>
           <select
             id="capture-format"
-            class="font-[inherit] py-2 px-2.5 rounded-[10px] border border-panel-border bg-white"
+            class="font-[inherit] py-2 px-2.5 rounded-lg border border-panel-border bg-white"
           >
             <option value="png">PNG</option>
             <option value="jpeg">JPEG</option>
             <option value="webp">WebP</option>
           </select>
         </label>
-        <label class="grid gap-1.5 text-[13px]">
+        <label class="grid gap-1.5 text-sm">
           <span class="text-xs text-muted">品質</span>
           <select
             id="capture-quality"
-            class="font-[inherit] py-2 px-2.5 rounded-[10px] border border-panel-border bg-white"
+            class="font-[inherit] py-2 px-2.5 rounded-lg border border-panel-border bg-white"
           >
             <option value="70">低 (70%)</option>
             <option value="80">中 (80%)</option>
@@ -93,11 +93,11 @@
             <option value="100">最高 (100%)</option>
           </select>
         </label>
-        <label class="grid gap-1.5 text-[13px]">
+        <label class="grid gap-1.5 text-sm">
           <span class="text-xs text-muted">解像度スケール</span>
           <select
             id="capture-scale"
-            class="font-[inherit] py-2 px-2.5 rounded-[10px] border border-panel-border bg-white"
+            class="font-[inherit] py-2 px-2.5 rounded-lg border border-panel-border bg-white"
           >
             <option value="1">100%</option>
             <option value="0.75">75%</option>
