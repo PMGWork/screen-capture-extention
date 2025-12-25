@@ -27,6 +27,17 @@
           </label>
         </div>
         <div class="grid gap-2">
+          <p class="m-0 label-text">カウントダウン</p>
+          <label class="grid gap-1.5 text-sm">
+            <select id="countdown-seconds" class="select-option">
+              <option value="0">なし (即時開始)</option>
+              <option value="3">3秒 (標準)</option>
+              <option value="5">5秒</option>
+              <option value="10">10秒</option>
+            </select>
+          </label>
+        </div>
+        <div class="grid gap-2">
           <p class="m-0 label-text">フレームレート</p>
           <label class="grid gap-1.5 text-sm">
             <select id="frame-rate" class="select-option">
@@ -60,32 +71,6 @@
       </section>
 
       <section class="card-option mt-4">
-        <h2 class="m-0 text-sm font-bold">ウィンドウサイズ</h2>
-        <label class="grid gap-1.5 text-sm">
-          <span class="label-text">デフォルトサイズ</span>
-          <select id="default-window-size" class="select-option">
-            <optgroup label="16:9">
-              <option value="960x540">960 × 540</option>
-              <option value="1280x720">1280 × 720</option>
-              <option value="1366x768">1366 × 768</option>
-              <option value="1600x900">1600 × 900</option>
-            </optgroup>
-            <optgroup label="16:10">
-              <option value="1024x600">1024 × 600</option>
-              <option value="1280x800">1280 × 800</option>
-              <option value="1440x900">1440 × 900</option>
-              <option value="1600x1000">1600 × 1000</option>
-            </optgroup>
-            <optgroup label="4:3">
-              <option value="800x600">800 × 600</option>
-              <option value="1024x768">1024 × 768</option>
-              <option value="1280x960">1280 × 960</option>
-            </optgroup>
-          </select>
-        </label>
-      </section>
-
-      <section class="card-option">
         <h2 class="m-0 text-sm font-bold">スクリーンショット</h2>
         <label class="grid gap-1.5 text-sm">
           <span class="label-text">フォーマット</span>
@@ -110,6 +95,32 @@
             <option value="1">100%</option>
             <option value="0.75">75%</option>
             <option value="0.5">50%</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="card-option mt-4">
+        <h2 class="m-0 text-sm font-bold">ウィンドウサイズ</h2>
+        <label class="grid gap-1.5 text-sm">
+          <span class="label-text">デフォルトサイズ</span>
+          <select id="default-window-size" class="select-option">
+            <optgroup label="16:9">
+              <option value="960x540">960 × 540</option>
+              <option value="1280x720">1280 × 720</option>
+              <option value="1366x768">1366 × 768</option>
+              <option value="1600x900">1600 × 900</option>
+            </optgroup>
+            <optgroup label="16:10">
+              <option value="1024x600">1024 × 600</option>
+              <option value="1280x800">1280 × 800</option>
+              <option value="1440x900">1440 × 900</option>
+              <option value="1600x1000">1600 × 1000</option>
+            </optgroup>
+            <optgroup label="4:3">
+              <option value="800x600">800 × 600</option>
+              <option value="1024x768">1024 × 768</option>
+              <option value="1280x960">1280 × 960</option>
+            </optgroup>
           </select>
         </label>
       </section>

@@ -1,5 +1,6 @@
 const tabAudioToggle = document.getElementById("tab-audio");
 const micAudioToggle = document.getElementById("mic-audio");
+const countdownSecondsSelect = document.getElementById("countdown-seconds");
 const frameRateSelect = document.getElementById("frame-rate");
 const videoBitrateInput = document.getElementById("video-bitrate");
 const resolutionScaleSelect = document.getElementById("resolution-scale");
@@ -25,11 +26,10 @@ const loadOptions = async () => {
   const options = await storage.get({
     tabAudio: true,
     micAudio: false,
+    countdownSeconds: 3,
     frameRate: 30,
     videoBitrateKbps: 5000,
     resolutionScale: 1,
-    captureFormat: "png",
-    captureQuality: 90,
     captureFormat: "png",
     captureQuality: 90,
     captureScale: 1,
@@ -37,6 +37,7 @@ const loadOptions = async () => {
   });
   tabAudioToggle.checked = options.tabAudio;
   micAudioToggle.checked = options.micAudio;
+  countdownSecondsSelect.value = String(options.countdownSeconds);
   frameRateSelect.value = String(options.frameRate);
   videoBitrateInput.value = String(options.videoBitrateKbps);
   resolutionScaleSelect.value = String(options.resolutionScale);
@@ -52,6 +53,7 @@ const saveOptions = async () => {
   await storage.set({
     tabAudio: tabAudioToggle.checked,
     micAudio: micAudioToggle.checked,
+    countdownSeconds: Number(countdownSecondsSelect.value),
     frameRate: Number(frameRateSelect.value),
     videoBitrateKbps: Number(videoBitrateInput.value || 0),
     resolutionScale: Number(resolutionScaleSelect.value),
@@ -74,11 +76,10 @@ const updateQualityAvailability = () => {
 [
   tabAudioToggle,
   micAudioToggle,
+  countdownSecondsSelect,
   frameRateSelect,
   videoBitrateInput,
   resolutionScaleSelect,
-  captureFormatSelect,
-  captureQualitySelect,
   captureFormatSelect,
   captureQualitySelect,
   captureScaleSelect,

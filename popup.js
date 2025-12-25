@@ -94,11 +94,12 @@ recordToggleButton.addEventListener("click", async () => {
       const storedOptions = await storage.get({
         tabAudio: true,
         micAudio: false,
+        countdownSeconds: 3,
         frameRate: 30,
         videoBitrateKbps: 5000
       });
       const response = await sendMessage("start-recording", {
-        countdownSeconds: 3,
+        countdownSeconds: storedOptions.countdownSeconds,
         tabAudio: storedOptions.tabAudio,
         micAudio: storedOptions.micAudio,
         frameRate: storedOptions.frameRate,

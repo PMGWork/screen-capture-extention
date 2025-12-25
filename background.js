@@ -121,6 +121,7 @@ const getStoredOptions = async () => {
   return chrome.storage.local.get({
     tabAudio: true,
     micAudio: false,
+    countdownSeconds: 3,
     frameRate: 30,
     videoBitrateKbps: 5000,
     resolutionScale: 1,
@@ -475,7 +476,8 @@ chrome.commands.onCommand.addListener(async (command) => {
         .then(() => setRecordingBadge(false))
         .catch((error) => console.error("録画停止失敗:", error.message));
     } else {
-      startRecording(3)
+      const { countdownSeconds = 3 } = await chrome.storage.local.get({ countdownSeconds: 3 });
+      startRecording(countdownSeconds)
         .then(() => setRecordingState(true))
         .then(() => setRecordingBadge(true))
         .catch((error) => console.error("録画開始失敗:", error.message));
