@@ -4,33 +4,54 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tab Capture Studio</title>
-    <link rel="stylesheet" href="popup.css" />
+    <link rel="stylesheet" href="dist/output.css" />
   </head>
-  <body>
-    <main class="panel">
-      <header class="panel__header">
-        <div class="panel__title-row">
-          <h1 class="panel__title">タブキャプチャ</h1>
-          <button class="btn btn--ghost btn--icon" id="open-settings" aria-label="設定">
-            <img src="icons/settings.svg" alt="" />
+  <body class="m-0 font-sans bg-bg text-text min-w-[320px]">
+    <main class="p-[18px_18px_16px] bg-panel-bg border border-panel-border m-3 rounded-xl relative overflow-hidden">
+      <header class="mb-2.5 relative z-[1]">
+        <div class="flex items-center justify-between gap-3 mb-1">
+          <h1 class="text-xl m-0 font-sans font-bold">タブキャプチャ</h1>
+          <button
+            class="p-2.5 text-sm leading-none whitespace-nowrap rounded-full border border-panel-border bg-transparent text-muted cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:border-accent hover:text-accent disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:cursor-not-allowed"
+            id="open-settings"
+            aria-label="設定"
+          >
+            <img src="icons/settings.svg" alt="" class="w-4 h-4 block" />
           </button>
         </div>
-        <p class="panel__subtitle">アクティブタブをキャプチャします</p>
+        <p class="text-xs m-0 text-muted leading-relaxed">アクティブタブをキャプチャします</p>
       </header>
 
-      <section class="panel__status" aria-live="polite">
-        <span id="status">待機中</span>
+      <section
+        class="text-xs text-muted border border-panel-border rounded-full py-1.5 px-2.5 inline-flex items-center gap-2 my-3 relative z-[1] bg-white w-fit"
+        aria-live="polite"
+      >
+        <span id="status" class="inline-flex items-center gap-1.5">待機中</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-accent inline-block animate-pulse-dot"></span>
       </section>
 
-      <section class="panel__actions">
-        <button class="btn btn--ghost" id="record-toggle">画面録画</button>
-        <button class="btn btn--ghost" id="capture">スクリーンショット</button>
+      <section class="grid gap-2.5 mb-3 relative z-[1]">
+        <button
+          class="border border-panel-border bg-transparent py-2.5 px-3 font-semibold cursor-pointer transition-all duration-200 text-muted rounded-[10px] hover:bg-gray-50 hover:border-accent hover:text-accent disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:cursor-not-allowed"
+          id="record-toggle"
+        >
+          画面録画
+        </button>
+        <button
+          class="border border-panel-border bg-transparent py-2.5 px-3 font-semibold cursor-pointer transition-all duration-200 text-muted rounded-[10px] hover:bg-gray-50 hover:border-accent hover:text-accent disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:cursor-not-allowed"
+          id="capture"
+        >
+          スクリーンショット
+        </button>
       </section>
 
-      <section class="panel__resize">
-        <label class="field">
-          <span class="field__label">プリセット</span>
-          <select id="window-size">
+      <section class="grid gap-2 mb-3 relative z-[1]">
+        <label class="grid gap-1.5 text-xs">
+          <span class="text-xs text-muted">プリセット</span>
+          <select
+            id="window-size"
+            class="font-[inherit] py-2 px-2.5 rounded-[10px] border border-panel-border bg-white text-text"
+          >
             <option value="none">選択してください</option>
             <optgroup label="16:9">
               <option value="960x540">960×540</option>
@@ -51,19 +72,43 @@
             </optgroup>
           </select>
         </label>
-        <div class="panel__resize-manual">
-          <label class="field">
-            <span class="field__label">幅</span>
-            <input type="number" id="window-width" min="320" step="10" placeholder="例: 1280" />
+        <div class="grid grid-cols-2 gap-2">
+          <label class="grid gap-1.5 text-xs">
+            <span class="text-xs text-muted">幅</span>
+            <input
+              type="number"
+              id="window-width"
+              min="320"
+              step="10"
+              placeholder="例: 1280"
+              class="font-[inherit] py-2 px-2.5 rounded-[10px] border border-panel-border bg-white text-text w-full min-w-0"
+            />
           </label>
-          <label class="field">
-            <span class="field__label">高さ</span>
-            <input type="number" id="window-height" min="240" step="10" placeholder="例: 720" />
+          <label class="grid gap-1.5 text-xs">
+            <span class="text-xs text-muted">高さ</span>
+            <input
+              type="number"
+              id="window-height"
+              min="240"
+              step="10"
+              placeholder="例: 720"
+              class="font-[inherit] py-2 px-2.5 rounded-[10px] border border-panel-border bg-white text-text w-full min-w-0"
+            />
           </label>
         </div>
-        <div class="panel__resize-actions">
-          <button class="btn btn--ghost" id="apply-window-size">サイズ変更</button>
-          <button class="btn btn--ghost" id="reset-window-size">元に戻す</button>
+        <div class="grid grid-cols-2 gap-2">
+          <button
+            class="w-full border border-panel-border bg-transparent py-2.5 px-3 font-semibold cursor-pointer transition-all duration-200 text-muted rounded-[10px] hover:bg-gray-50 hover:border-accent hover:text-accent disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:cursor-not-allowed"
+            id="apply-window-size"
+          >
+            サイズ変更
+          </button>
+          <button
+            class="w-full border border-panel-border bg-transparent py-2.5 px-3 font-semibold cursor-pointer transition-all duration-200 text-muted rounded-[10px] hover:bg-gray-50 hover:border-accent hover:text-accent disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:cursor-not-allowed"
+            id="reset-window-size"
+          >
+            元に戻す
+          </button>
         </div>
       </section>
     </main>
